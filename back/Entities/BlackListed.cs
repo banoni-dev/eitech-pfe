@@ -1,6 +1,8 @@
 public enum BlackListType
 {
-    // TODO:
+    IP,
+    User,
+    Device
 }
 
 public class BlackListed

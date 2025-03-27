@@ -14,6 +14,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DatabaseConfig>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubscriptionOrderRepository, SubscriptionOrderRepository>();
+builder.Services.AddScoped<ISubscriptionOrderService, SubscriptionOrderService>();
+builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
+builder.Services.AddScoped<ILicenseService, LicenseService>();
 
 var app = builder.Build();
 
