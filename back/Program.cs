@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using EitechPfe.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +20,8 @@ builder.Services.AddScoped<ISubscriptionOrderRepository, SubscriptionOrderReposi
 builder.Services.AddScoped<ISubscriptionOrderService, SubscriptionOrderService>();
 builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
 builder.Services.AddScoped<ILicenseService, LicenseService>();
+builder.Services.AddScoped<IBlackListedRepository, BlackListedRepository>();
+builder.Services.AddScoped<IBlackListedService, BlackListedService>();
 
 var app = builder.Build();
 

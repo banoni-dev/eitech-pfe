@@ -1,4 +1,5 @@
-using EitechPfe.Models;
+using EitechPfe.Entities;
+using EitechPfe.Interfaces;
 
 namespace EitechPfe.Services
 {

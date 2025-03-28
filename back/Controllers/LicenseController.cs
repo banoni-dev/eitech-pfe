@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using EitechPfe.Interfaces;
+using EitechPfe.Entities;
 
 [ApiController]
 [Route("api/licenses")]

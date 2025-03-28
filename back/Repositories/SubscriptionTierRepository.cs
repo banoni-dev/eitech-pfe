@@ -1,5 +1,6 @@
 using Dapper;
 using System.Data;
+using EitechPfe.Repositories.Interfaces;
 
 public class SubscriptionTierRepository : ISubscriptionTierRepository
 {

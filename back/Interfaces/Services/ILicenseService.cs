@@ -1,6 +1,8 @@
-using EitechPfe.Models;
+using EitechPfe.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace EitechPfe.Services
+namespace EitechPfe.Interfaces
 {
     public interface ILicenseService
     {

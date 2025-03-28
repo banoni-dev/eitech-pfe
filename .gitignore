@@ -56,3 +56,6 @@ Thumbs.db
 *.bak
 *.tmp
 *.swp
+
+# Ignore HTTP test files
+*.http
