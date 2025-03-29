@@ -5,8 +5,34 @@ using EitechPfe.Interfaces;
 using EitechPfe.Services;
 using EitechPfe.Repositories;
 using System.Text.Json.Serialization;
+using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Database connection string
+string connectionString = builder.Configuration.GetConnectionString("MariaDbConnection") 
+    ?? throw new InvalidOperationException("Database connection string is missing.");
+
+// Handle database operations from command-line arguments
+if (args.Length > 0)
+{
+    switch (args[0].ToLower())
+    {
+        case "init":
+            new DatabaseInit(connectionString).Run();
+            return;
+        case "seed":
+            new DatabaseInit(connectionString).Run(); // Ensure tables exist before seeding
+            new DatabaseSeed(connectionString).Run();
+            return;
+        case "clean":
+            new DatabaseClean(connectionString).Run();
+            return;
+        default:
+            Console.WriteLine("Invalid command! Use 'init', 'seed', or 'clean'.");
+            return;
+    }
+}
 
 // Add services to the container.
 builder.Services.AddControllers()
@@ -72,9 +98,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseRouting();
-
 // app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {

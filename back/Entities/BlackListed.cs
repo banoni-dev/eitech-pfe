@@ -15,11 +15,6 @@ namespace EitechPfe.Entities
         public DateTime BlockedDate { get; set; }
         public DateTime? RecoveryDate { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime LastUpdateAt 
-        { 
-            get { return UpdatedAt; }
-            set { UpdatedAt = value; }
-        }
+        public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
     }
 }
