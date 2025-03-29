@@ -1,54 +1,57 @@
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/subscription-tiers")]
-public class SubscriptionTierController : ControllerBase
+namespace EitechPfe.Controllers
 {
-    private readonly ISubscriptionTierService _subscriptionTierService;
-
-    public SubscriptionTierController(ISubscriptionTierService subscriptionTierService)
+    [ApiController]
+    [Route("api/subscription-tiers")]
+    public class SubscriptionTierController : ControllerBase
     {
-        _subscriptionTierService = subscriptionTierService;
-    }
+        private readonly ISubscriptionTierService _subscriptionTierService;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] SubscriptionTier subscriptionTier)
-    {
-        subscriptionTier.CreatedAt = DateTime.UtcNow;
-        subscriptionTier.LastUpdateAt = DateTime.UtcNow;
+        public SubscriptionTierController(ISubscriptionTierService subscriptionTierService)
+        {
+            _subscriptionTierService = subscriptionTierService;
+        }
 
-        var result = await _subscriptionTierService.CreateSubscriptionTier(subscriptionTier);
-        return result > 0 ? Ok("Subscription tier created") : BadRequest("Failed to create subscription tier");
-    }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] SubscriptionTier subscriptionTier)
+        {
+            subscriptionTier.CreatedAt = DateTime.UtcNow;
+            subscriptionTier.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
-    {
-        var subscriptionTier = await _subscriptionTierService.GetSubscriptionTierById(id);
-        return subscriptionTier != null ? Ok(subscriptionTier) : NotFound();
-    }
+            var result = await _subscriptionTierService.CreateSubscriptionTier(subscriptionTier);
+            return result > 0 ? Ok("Subscription tier created") : BadRequest("Failed to create subscription tier");
+        }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var subscriptionTiers = await _subscriptionTierService.GetAllSubscriptionTiers();
-        return Ok(subscriptionTiers);
-    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var subscriptionTier = await _subscriptionTierService.GetSubscriptionTierById(id);
+            return subscriptionTier != null ? Ok(subscriptionTier) : NotFound();
+        }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] SubscriptionTier subscriptionTier)
-    {
-        subscriptionTier.TierId = id;
-        subscriptionTier.LastUpdateAt = DateTime.UtcNow;
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var subscriptionTiers = await _subscriptionTierService.GetAllSubscriptionTiers();
+            return Ok(subscriptionTiers);
+        }
 
-        var result = await _subscriptionTierService.UpdateSubscriptionTier(subscriptionTier);
-        return result > 0 ? Ok("Subscription tier updated") : BadRequest("Failed to update subscription tier");
-    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] SubscriptionTier subscriptionTier)
+        {
+            subscriptionTier.TierId = id;
+            subscriptionTier.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var result = await _subscriptionTierService.DeleteSubscriptionTier(id);
-        return result > 0 ? Ok("Subscription tier deleted") : BadRequest("Failed to delete subscription tier");
+            var result = await _subscriptionTierService.UpdateSubscriptionTier(subscriptionTier);
+            return result > 0 ? Ok("Subscription tier updated") : BadRequest("Failed to update subscription tier");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _subscriptionTierService.DeleteSubscriptionTier(id);
+            return result > 0 ? Ok("Subscription tier deleted") : BadRequest("Failed to delete subscription tier");
+        }
     }
 }

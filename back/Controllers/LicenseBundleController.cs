@@ -1,56 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
 using EitechPfe.Interfaces;
 using EitechPfe.Entities;
+using System;
+using System.Threading.Tasks;
 
-[ApiController]
-[Route("api/license-bundles")]
-public class LicenseBundleController : ControllerBase
+namespace EitechPfe.Controllers
 {
-    private readonly ILicenseBundleService _licenseBundleService;
-
-    public LicenseBundleController(ILicenseBundleService licenseBundleService)
+    [ApiController]
+    [Route("api/license-bundles")]
+    public class LicenseBundleController : ControllerBase
     {
-        _licenseBundleService = licenseBundleService;
-    }
+        private readonly ILicenseBundleService _licenseBundleService;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] LicenseBundle licenseBundle)
-    {
-        licenseBundle.CreatedAt = DateTime.UtcNow;
-        licenseBundle.LastUpdateAt = DateTime.UtcNow;
+        public LicenseBundleController(ILicenseBundleService licenseBundleService)
+        {
+            _licenseBundleService = licenseBundleService;
+        }
 
-        var result = await _licenseBundleService.CreateLicenseBundle(licenseBundle);
-        return result > 0 ? Ok("License bundle created") : BadRequest("Failed to create license bundle");
-    }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] LicenseBundle licenseBundle)
+        {
+            licenseBundle.CreatedAt = DateTime.UtcNow;
+            licenseBundle.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
-    {
-        var licenseBundle = await _licenseBundleService.GetLicenseBundleById(id);
-        return licenseBundle != null ? Ok(licenseBundle) : NotFound();
-    }
+            var result = await _licenseBundleService.CreateLicenseBundle(licenseBundle);
+            return result > 0 ? Ok("License bundle created") : BadRequest("Failed to create license bundle");
+        }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var licenseBundles = await _licenseBundleService.GetAllLicenseBundles();
-        return Ok(licenseBundles);
-    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var licenseBundle = await _licenseBundleService.GetLicenseBundleById(id);
+            return licenseBundle != null ? Ok(licenseBundle) : NotFound();
+        }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] LicenseBundle licenseBundle)
-    {
-        licenseBundle.LicenseOrderId = id;
-        licenseBundle.LastUpdateAt = DateTime.UtcNow;
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var licenseBundles = await _licenseBundleService.GetAllLicenseBundles();
+            return Ok(licenseBundles);
+        }
 
-        var result = await _licenseBundleService.UpdateLicenseBundle(licenseBundle);
-        return result > 0 ? Ok("License bundle updated") : BadRequest("Failed to update license bundle");
-    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] LicenseBundle licenseBundle)
+        {
+            licenseBundle.LicenseOrderId = id;
+            licenseBundle.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var result = await _licenseBundleService.DeleteLicenseBundle(id);
-        return result > 0 ? Ok("License bundle deleted") : BadRequest("Failed to delete license bundle");
+            var result = await _licenseBundleService.UpdateLicenseBundle(licenseBundle);
+            return result > 0 ? Ok("License bundle updated") : BadRequest("Failed to update license bundle");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _licenseBundleService.DeleteLicenseBundle(id);
+            return result > 0 ? Ok("License bundle deleted") : BadRequest("Failed to delete license bundle");
+        }
     }
 }

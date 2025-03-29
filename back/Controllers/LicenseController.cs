@@ -1,56 +1,61 @@
 using Microsoft.AspNetCore.Mvc;
 using EitechPfe.Interfaces;
 using EitechPfe.Entities;
+using System;
+using System.Threading.Tasks;
 
-[ApiController]
-[Route("api/licenses")]
-public class LicenseController : ControllerBase
+namespace EitechPfe.Controllers
 {
-    private readonly ILicenseService _licenseService;
-
-    public LicenseController(ILicenseService licenseService)
+    [ApiController]
+    [Route("api/licenses")]
+    public class LicenseController : ControllerBase
     {
-        _licenseService = licenseService;
-    }
+        private readonly ILicenseService _licenseService;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] License license)
-    {
-        license.CreatedAt = DateTime.UtcNow;
-        license.LastUpdateAt = DateTime.UtcNow;
+        public LicenseController(ILicenseService licenseService)
+        {
+            _licenseService = licenseService;
+        }
 
-        var result = await _licenseService.CreateLicense(license);
-        return result > 0 ? Ok("License created") : BadRequest("Failed to create license");
-    }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] License license)
+        {
+            license.CreatedAt = DateTime.UtcNow;
+            license.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
-    {
-        var license = await _licenseService.GetLicenseById(id);
-        return license != null ? Ok(license) : NotFound();
-    }
+            var result = await _licenseService.CreateLicense(license);
+            return result > 0 ? Ok("License created") : BadRequest("Failed to create license");
+        }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var licenses = await _licenseService.GetAllLicenses();
-        return Ok(licenses);
-    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var license = await _licenseService.GetLicenseById(id);
+            return license != null ? Ok(license) : NotFound();
+        }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] License license)
-    {
-        license.LicenseId = id;
-        license.LastUpdateAt = DateTime.UtcNow;
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var licenses = await _licenseService.GetAllLicenses();
+            return Ok(licenses);
+        }
 
-        var result = await _licenseService.UpdateLicense(license);
-        return result > 0 ? Ok("License updated") : BadRequest("Failed to update license");
-    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] License license)
+        {
+            license.LicenseId = id;
+            license.LastUpdateAt = DateTime.UtcNow;
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var result = await _licenseService.DeleteLicense(id);
-        return result > 0 ? Ok("License deleted") : BadRequest("Failed to delete license");
+            var result = await _licenseService.UpdateLicense(license);
+            return result > 0 ? Ok("License updated") : BadRequest("Failed to update license");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _licenseService.DeleteLicense(id);
+            return result > 0 ? Ok("License deleted") : BadRequest("Failed to delete license");
+        }
     }
 }
