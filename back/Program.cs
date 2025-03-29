@@ -61,12 +61,24 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EitechPFE API v1"));
 }
 
-app.UseHttpsRedirection();
+// Enable Swagger for all environments
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EitechPFE API v1");
+    c.RoutePrefix = "swagger";
+});
+
+app.UseRouting();
+
+// app.UseHttpsRedirection();
+
 app.UseAuthorization();
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

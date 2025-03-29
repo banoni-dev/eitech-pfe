@@ -1,15 +1,37 @@
-public class SubscriptionOrderService : ISubscriptionOrderService
+namespace EitechPfe.Services
 {
-    private readonly ISubscriptionOrderRepository _subscriptionOrderRepository;
-
-    public SubscriptionOrderService(ISubscriptionOrderRepository subscriptionOrderRepository)
+    public class SubscriptionOrderService : ISubscriptionOrderService
     {
-        _subscriptionOrderRepository = subscriptionOrderRepository;
-    }
+        private readonly ISubscriptionOrderRepository _subscriptionOrderRepository;
 
-    public Task<int> CreateSubscriptionOrder(SubscriptionOrder subscriptionOrder) => _subscriptionOrderRepository.CreateSubscriptionOrder(subscriptionOrder);
-    public Task<SubscriptionOrder?> GetSubscriptionOrderById(int id) => _subscriptionOrderRepository.GetSubscriptionOrderById(id);
-    public Task<IEnumerable<SubscriptionOrder>> GetAllSubscriptionOrders() => _subscriptionOrderRepository.GetAllSubscriptionOrders();
-    public Task<int> UpdateSubscriptionOrder(SubscriptionOrder subscriptionOrder) => _subscriptionOrderRepository.UpdateSubscriptionOrder(subscriptionOrder);
-    public Task<int> DeleteSubscriptionOrder(int id) => _subscriptionOrderRepository.DeleteSubscriptionOrder(id);
+        public SubscriptionOrderService(ISubscriptionOrderRepository subscriptionOrderRepository)
+        {
+            _subscriptionOrderRepository = subscriptionOrderRepository;
+        }
+
+        public async Task<int> CreateSubscriptionOrder(SubscriptionOrder subscriptionOrder)
+        {
+            return await _subscriptionOrderRepository.CreateSubscriptionOrder(subscriptionOrder);
+        }
+
+        public async Task<SubscriptionOrder?> GetSubscriptionOrderById(int id)
+        {
+            return await _subscriptionOrderRepository.GetSubscriptionOrderById(id);
+        }
+
+        public async Task<IEnumerable<SubscriptionOrder>> GetAllSubscriptionOrders()
+        {
+            return await _subscriptionOrderRepository.GetAllSubscriptionOrders();
+        }
+
+        public async Task<int> UpdateSubscriptionOrder(SubscriptionOrder subscriptionOrder)
+        {
+            return await _subscriptionOrderRepository.UpdateSubscriptionOrder(subscriptionOrder);
+        }
+
+        public async Task<int> DeleteSubscriptionOrder(int id)
+        {
+            return await _subscriptionOrderRepository.DeleteSubscriptionOrder(id);
+        }
+    }
 }

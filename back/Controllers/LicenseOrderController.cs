@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using EitechPfe.Interfaces;
-using EitechPfe.Entities;
 
 namespace EitechPfe.Controllers
 {

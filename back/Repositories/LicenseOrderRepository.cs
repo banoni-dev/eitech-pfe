@@ -1,10 +1,3 @@
-using Dapper;
-using System.Data;
-using EitechPfe.Entities;
-using EitechPfe.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace EitechPfe.Repositories
 {

@@ -1,7 +1,3 @@
-using Dapper;
-using System.Data;
-using EitechPfe.Entities;
-using EitechPfe.Interfaces;
 
 namespace EitechPfe.Repositories
 {

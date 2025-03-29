@@ -1,7 +1,3 @@
-using EitechPfe.Entities;
-using EitechPfe.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EitechPfe.Services
 {

@@ -1,12 +1,4 @@
-using EitechPfe.Entities;
-using EitechPfe.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace EitechPfe.Services
-{
-    public class LicenseActivationService : ILicenseActivationService
+public class LicenseActivationService : ILicenseActivationService
     {
         private readonly ILicenseActivationRepository _repository;
 
@@ -40,4 +32,4 @@ namespace EitechPfe.Services
             return await _repository.Delete(id);
         }
     }
-}
+

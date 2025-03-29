@@ -1,15 +1,37 @@
-public class BlackListedService : IBlackListedService
+namespace EitechPfe.Services
 {
-    private readonly IBlackListedRepository _blackListedRepository;
-
-    public BlackListedService(IBlackListedRepository blackListedRepository)
+    public class BlackListedService : IBlackListedService
     {
-        _blackListedRepository = blackListedRepository;
-    }
+        private readonly IBlackListedRepository _blackListedRepository;
 
-    public Task<int> CreateBlackListed(BlackListed blackListed) => _blackListedRepository.CreateBlackListed(blackListed);
-    public Task<BlackListed?> GetBlackListedById(int id) => _blackListedRepository.GetBlackListedById(id);
-    public Task<IEnumerable<BlackListed>> GetAllBlackListed() => _blackListedRepository.GetAllBlackListed();
-    public Task<int> UpdateBlackListed(BlackListed blackListed) => _blackListedRepository.UpdateBlackListed(blackListed);
-    public Task<int> DeleteBlackListed(int id) => _blackListedRepository.DeleteBlackListed(id);
+        public BlackListedService(IBlackListedRepository blackListedRepository)
+        {
+            _blackListedRepository = blackListedRepository;
+        }
+
+        public async Task<int> CreateBlackListed(BlackListed blackListed)
+        {
+            return await _blackListedRepository.CreateBlackListed(blackListed);
+        }
+
+        public async Task<BlackListed?> GetBlackListedById(int id)
+        {
+            return await _blackListedRepository.GetBlackListedById(id);
+        }
+
+        public async Task<IEnumerable<BlackListed>> GetAllBlackListed()
+        {
+            return await _blackListedRepository.GetAllBlackListed();
+        }
+
+        public async Task<int> UpdateBlackListed(BlackListed blackListed)
+        {
+            return await _blackListedRepository.UpdateBlackListed(blackListed);
+        }
+
+        public async Task<int> DeleteBlackListed(int id)
+        {
+            return await _blackListedRepository.DeleteBlackListed(id);
+        }
+    }
 }

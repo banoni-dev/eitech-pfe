@@ -1,15 +1,37 @@
-public class ProductService : IProductService
+namespace EitechPfe.Services
 {
-    private readonly IProductRepository _productRepository;
-
-    public ProductService(IProductRepository productRepository)
+    public class ProductService : IProductService
     {
-        _productRepository = productRepository;
-    }
+        private readonly IProductRepository _productRepository;
 
-    public Task<int> CreateProduct(Product product) => _productRepository.CreateProduct(product);
-    public Task<Product?> GetProductById(int id) => _productRepository.GetProductById(id);
-    public Task<IEnumerable<Product>> GetAllProducts() => _productRepository.GetAllProducts();
-    public Task<int> UpdateProduct(Product product) => _productRepository.UpdateProduct(product);
-    public Task<int> DeleteProduct(int id) => _productRepository.DeleteProduct(id);
+        public ProductService(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
+        public async Task<int> CreateProduct(Product product)
+        {
+            return await _productRepository.CreateProduct(product);
+        }
+
+        public async Task<Product?> GetProductById(int id)
+        {
+            return await _productRepository.GetProductById(id);
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProducts()
+        {
+            return await _productRepository.GetAllProducts();
+        }
+
+        public async Task<int> UpdateProduct(Product product)
+        {
+            return await _productRepository.UpdateProduct(product);
+        }
+
+        public async Task<int> DeleteProduct(int id)
+        {
+            return await _productRepository.DeleteProduct(id);
+        }
+    }
 }
