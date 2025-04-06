@@ -9,11 +9,9 @@ using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Database connection string
 string connectionString = builder.Configuration.GetConnectionString("MariaDbConnection") 
     ?? throw new InvalidOperationException("Database connection string is missing.");
 
-// Handle database operations from command-line arguments
 if (args.Length > 0)
 {
     switch (args[0].ToLower())
@@ -22,7 +20,7 @@ if (args.Length > 0)
             new DatabaseInit(connectionString).Run();
             return;
         case "seed":
-            new DatabaseInit(connectionString).Run(); // Ensure tables exist before seeding
+            new DatabaseInit(connectionString).Run();
             new DatabaseSeed(connectionString).Run();
             return;
         case "clean":
