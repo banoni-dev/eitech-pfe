@@ -43,6 +43,9 @@ builder.Services.AddControllers()
 // Database configuration
 builder.Services.AddSingleton<DatabaseConfig>();
 
+// Register HttpClient
+builder.Services.AddHttpClient();
+
 // Register repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -66,6 +69,7 @@ builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
 builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
 builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
 builder.Services.AddScoped<IBlackListedService, BlackListedService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
