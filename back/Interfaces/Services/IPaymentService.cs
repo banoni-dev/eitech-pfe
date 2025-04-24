@@ -6,5 +6,6 @@ namespace EitechPfe.Interfaces
     public interface IPaymentService
     {
         Task<PaymentResponse?> InitiatePayment(PaymentRequest paymentRequest);
+        Task<string?> GetPaymentDetails(string paymentRef);
     }
 }

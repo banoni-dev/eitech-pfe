@@ -46,7 +46,7 @@ namespace EitechPfe.Services
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("x-api-key", konnectApiKey);
 
-            var konnectApiUrl = _configuration["Konnect:ApiUrl"];
+            var konnectApiUrl = $"{_configuration["Konnect:ApiUrl"]}/init-payment";
             var response = await _httpClient.PostAsync(konnectApiUrl, content);
 
             if (!response.IsSuccessStatusCode)
@@ -64,5 +64,26 @@ namespace EitechPfe.Services
                 ReferenceId = responseDict["paymentRef"]
             };
         }
+
+        public async Task<string?> GetPaymentDetails(string paymentRef)
+        {
+            var konnectApiKey = _configuration["Konnect:ApiKey"];
+            var konnectApiUrl = $"{_configuration["Konnect:ApiUrl"]}/{paymentRef}";
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("x-api-key", konnectApiKey);
+
+            var response = await _httpClient.GetAsync(konnectApiUrl);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Error fetching payment details: {response.StatusCode}");
+                return null;
+            }
+
+            return responseContent;
+        }
+
     }
 }
