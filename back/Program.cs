@@ -9,9 +9,11 @@ using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database connection string
 string connectionString = builder.Configuration.GetConnectionString("MariaDbConnection") 
     ?? throw new InvalidOperationException("Database connection string is missing.");
 
+// Handle database operations from command-line arguments
 if (args.Length > 0)
 {
     switch (args[0].ToLower())
@@ -20,7 +22,6 @@ if (args.Length > 0)
             new DatabaseInit(connectionString).Run();
             return;
         case "seed":
-            new DatabaseInit(connectionString).Run();
             new DatabaseSeed(connectionString).Run();
             return;
         case "clean":
@@ -42,9 +43,6 @@ builder.Services.AddControllers()
 
 // Database configuration
 builder.Services.AddSingleton<DatabaseConfig>();
-
-// Register HttpClient
-builder.Services.AddHttpClient();
 
 // Register repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -69,7 +67,6 @@ builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
 builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
 builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
 builder.Services.AddScoped<IBlackListedService, BlackListedService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();

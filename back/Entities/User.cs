@@ -9,3 +9,6 @@ public class User
     public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
     public bool IsArchived { get; set; } = false;
 }
+// check: 
+// licence: id, options, email
+// subscription: id tier, id subscription , email

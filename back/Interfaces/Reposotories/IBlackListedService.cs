@@ -7,5 +7,8 @@ namespace EitechPfe.Interfaces
         Task<IEnumerable<BlackListed>> GetAllBlackListed();
         Task<int> UpdateBlackListed(BlackListed blackListed);
         Task<int> DeleteBlackListed(int id);
+        // Task<bool> IsIpBlacklisted(string ip);
+        // Task<bool> IsUserBlacklisted(int userId);
+        // Task<bool> IsDeviceBlacklisted(string deviceFingerprint);
     }
 }

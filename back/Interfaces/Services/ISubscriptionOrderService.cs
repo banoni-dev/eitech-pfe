@@ -7,5 +7,6 @@ namespace EitechPfe.Interfaces
         Task<IEnumerable<SubscriptionOrder>> GetAllSubscriptionOrders();
         Task<int> UpdateSubscriptionOrder(SubscriptionOrder subscriptionOrder);
         Task<int> DeleteSubscriptionOrder(int id);
+        Task<bool> CheckSubscription(int userId, int productId);
     }
 }
