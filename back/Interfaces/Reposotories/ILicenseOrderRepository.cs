@@ -1,4 +1,3 @@
-
 namespace EitechPfe.Interfaces
 {
     public interface ILicenseOrderRepository
@@ -11,5 +10,6 @@ namespace EitechPfe.Interfaces
         Task<bool> UpdateAsync(LicenseOrder order);
         Task<bool> DeleteAsync(int id);
         Task<bool> AddOptionToOrderAsync(LicenseOrderOption orderOption);
+        Task<LicenseOrder?> GetByUserIdAndLicenseId(int userId, int licenseId);
     }
 }

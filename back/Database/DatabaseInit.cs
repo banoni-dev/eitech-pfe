@@ -23,8 +23,8 @@ public class DatabaseInit
                 user_id INT AUTO_INCREMENT PRIMARY KEY,
                 first_name VARCHAR(255) NOT NULL,
                 last_name VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL,
-                phone VARCHAR(50) NOT NULL,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                phone VARCHAR(50) NOT NULL UNIQUE,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 is_archived BOOLEAN NOT NULL DEFAULT FALSE
@@ -33,7 +33,7 @@ public class DatabaseInit
             -- Products Table
             CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
+                name VARCHAR(255) NOT NULL UNIQUE,
                 description TEXT NOT NULL,
                 product_type ENUM('Licence', 'Subscription') NOT NULL,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -48,7 +48,7 @@ public class DatabaseInit
                 max_devices INT NOT NULL,
                 duration INT NOT NULL,
                 grace_period INT NOT NULL,
-                public_key TEXT NOT NULL,
+                public_key TEXT NOT NULL UNIQUE,
                 price DECIMAL(10,2) NOT NULL,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -60,7 +60,7 @@ public class DatabaseInit
             CREATE TABLE IF NOT EXISTS license_options (
                 option_id INT AUTO_INCREMENT PRIMARY KEY,
                 license_id INT NOT NULL,
-                option_name VARCHAR(255) NOT NULL,
+                option_name VARCHAR(255) NOT NULL UNIQUE,
                 description TEXT NOT NULL,
                 price DECIMAL(10,2) NOT NULL,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

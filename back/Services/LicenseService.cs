@@ -2,39 +2,44 @@ namespace EitechPfe.Services
 {
     public class LicenseService : ILicenseService
     {
-        private readonly ILicenseRepository _repository;
-        private readonly ILicenseOrderRepository _licenseOrderRepository;
         private readonly ILicenseRepository _licenseRepository;
+        private readonly ILicenseOrderRepository _licenseOrderRepository;
 
-        public LicenseService(ILicenseOrderRepository licenseOrderRepository, ILicenseRepository licenseRepository)
+        public LicenseService(ILicenseRepository licenseRepository, ILicenseOrderRepository licenseOrderRepository)
         {
-            _licenseOrderRepository = licenseOrderRepository;
             _licenseRepository = licenseRepository;
+            _licenseOrderRepository = licenseOrderRepository;
         }
 
         public async Task<int> CreateLicense(License license)
         {
-            return await _repository.Add(license);
+            return await _licenseRepository.Add(license);
         }
 
         public async Task<License?> GetLicenseById(int id)
         {
-            return await _repository.GetById(id);
+            return await _licenseRepository.GetById(id);
         }
 
         public async Task<IEnumerable<License>> GetAllLicenses()
         {
-            return await _repository.GetAll();
+            return await _licenseRepository.GetAll();
         }
 
         public async Task<int> UpdateLicense(License license)
         {
-            return await _repository.Update(license);
+            return await _licenseRepository.Update(license);
         }
 
         public async Task<int> DeleteLicense(int id)
         {
-            return await _repository.Delete(id);
+            return await _licenseRepository.Delete(id);
+        }
+
+        public async Task<bool> CheckLicense(int userId, int licenseId)
+        {
+            var licenseOrder = await _licenseOrderRepository.GetByUserIdAndLicenseId(userId, licenseId);
+            return licenseOrder != null && licenseOrder.Status == LicenseOrderStatus.Active;
         }
 
         public async Task<bool> CheckLicense(int userId, int productId, string? fingerprint = null)

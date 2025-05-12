@@ -1,4 +1,3 @@
-
 namespace EitechPfe.Repositories
 {
     public class ProductRepository : IProductRepository
@@ -22,14 +21,33 @@ namespace EitechPfe.Repositories
         public async Task<Product?> GetProductById(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM products WHERE id = @Id;";
+            string sql = @"
+                SELECT 
+                    id AS Id,
+                    name AS Name,
+                    description AS Description,
+                    product_type AS ProductType,
+                    created_at AS CreatedAt,
+                    updated_at AS UpdatedAt,
+                    is_archived AS IsArchived
+                FROM products
+                WHERE id = @Id;";
             return await connection.QueryFirstOrDefaultAsync<Product>(sql, new { Id = id });
         }
 
         public async Task<IEnumerable<Product>> GetAllProducts()
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM products;";
+            string sql = @"
+                SELECT 
+                    id AS Id,
+                    name AS Name,
+                    description AS Description,
+                    product_type AS ProductType,
+                    created_at AS CreatedAt,
+                    updated_at AS UpdatedAt,
+                    is_archived AS IsArchived
+                FROM products;";
             return await connection.QueryAsync<Product>(sql);
         }
 

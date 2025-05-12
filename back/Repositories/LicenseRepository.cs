@@ -1,4 +1,3 @@
-
 namespace EitechPfe.Repositories
 {
     public class LicenseRepository : ILicenseRepository
@@ -22,14 +21,39 @@ namespace EitechPfe.Repositories
         public async Task<License?> GetById(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM licenses WHERE license_id = @Id;";
+            string sql = @"
+                SELECT 
+                    license_id AS LicenseId,
+                    product_id AS ProductId,
+                    max_devices AS MaxDevices,
+                    duration AS Duration,
+                    grace_period AS GracePeriod,
+                    public_key AS PublicKey,
+                    price AS Price,
+                    created_at AS CreatedAt,
+                    last_update_at AS LastUpdateAt,
+                    is_archived AS IsArchived
+                FROM licenses
+                WHERE license_id = @Id;";
             return await connection.QueryFirstOrDefaultAsync<License>(sql, new { Id = id });
         }
 
         public async Task<IEnumerable<License>> GetAll()
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM licenses;";
+            string sql = @"
+                SELECT 
+                    license_id AS LicenseId,
+                    product_id AS ProductId,
+                    max_devices AS MaxDevices,
+                    duration AS Duration,
+                    grace_period AS GracePeriod,
+                    public_key AS PublicKey,
+                    price AS Price,
+                    created_at AS CreatedAt,
+                    last_update_at AS LastUpdateAt,
+                    is_archived AS IsArchived
+                FROM licenses;";
             return await connection.QueryAsync<License>(sql);
         }
 
@@ -50,6 +74,16 @@ namespace EitechPfe.Repositories
             using var connection = _dbConfig.GetConnection();
             string sql = "DELETE FROM licenses WHERE license_id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
+        }
+
+        public async Task<LicenseOrder?> GetLicenseOrderByUserAndLicense(int userId, int licenseId)
+        {
+            using var connection = _dbConfig.GetConnection();
+            string sql = @"
+                SELECT * 
+                FROM license_orders 
+                WHERE user_id = @UserId AND license_id = @LicenseId AND is_archived = FALSE;";
+            return await connection.QueryFirstOrDefaultAsync<LicenseOrder>(sql, new { UserId = userId, LicenseId = licenseId });
         }
     }
 }

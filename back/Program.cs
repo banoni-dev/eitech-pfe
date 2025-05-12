@@ -41,6 +41,9 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 
+// Register HttpClient
+builder.Services.AddHttpClient();
+
 // Database configuration
 builder.Services.AddSingleton<DatabaseConfig>();
 
@@ -67,6 +70,7 @@ builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
 builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
 builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
 builder.Services.AddScoped<IBlackListedService, BlackListedService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();

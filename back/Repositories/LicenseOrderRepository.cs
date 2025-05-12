@@ -1,4 +1,3 @@
-
 namespace EitechPfe.Repositories
 {
     public class LicenseOrderRepository : ILicenseOrderRepository
@@ -61,6 +60,25 @@ namespace EitechPfe.Repositories
             using var connection = _dbConfig.GetConnection();
             string sql = "SELECT * FROM license_orders WHERE user_id = @UserId;";
             return await connection.QueryAsync<LicenseOrder>(sql, new { UserId = userId });
+        }
+
+        public async Task<LicenseOrder?> GetByUserIdAndLicenseId(int userId, int licenseId)
+        {
+            using var connection = _dbConfig.GetConnection();
+            string sql = @"
+                SELECT 
+                    license_order_id AS LicenseOrderId,
+                    user_id AS UserId,
+                    license_id AS LicenseId,
+                    private_key AS PrivateKey,
+                    purchase_date AS PurchaseDate,
+                    status AS Status,
+                    created_at AS CreatedAt,
+                    last_update_at AS LastUpdateAt,
+                    is_archived AS IsArchived
+                FROM license_orders
+                WHERE user_id = @UserId AND license_id = @LicenseId;";
+            return await connection.QueryFirstOrDefaultAsync<LicenseOrder>(sql, new { UserId = userId, LicenseId = licenseId });
         }
 
         public async Task<bool> UpdateAsync(LicenseOrder licenseOrder)

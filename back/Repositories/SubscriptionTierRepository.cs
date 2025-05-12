@@ -1,4 +1,3 @@
-
 namespace EitechPfe.Repositories
 {
     public class SubscriptionTierRepository : ISubscriptionTierRepository
@@ -22,14 +21,37 @@ namespace EitechPfe.Repositories
         public async Task<SubscriptionTier?> GetSubscriptionTierById(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM subscription_tiers WHERE tier_id = @Id;";
+            string sql = @"
+                SELECT 
+                    tier_id AS TierId,
+                    product_id AS ProductId,
+                    tier_name AS TierName,
+                    duration AS Duration,
+                    grace_period AS GracePeriod,
+                    price AS Price,
+                    created_at AS CreatedAt,
+                    last_update_at AS LastUpdateAt,
+                    is_archived AS IsArchived
+                FROM subscription_tiers
+                WHERE tier_id = @Id;";
             return await connection.QueryFirstOrDefaultAsync<SubscriptionTier>(sql, new { Id = id });
         }
 
         public async Task<IEnumerable<SubscriptionTier>> GetAllSubscriptionTiers()
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM subscription_tiers;";
+            string sql = @"
+                SELECT 
+                    tier_id AS TierId,
+                    product_id AS ProductId,
+                    tier_name AS TierName,
+                    duration AS Duration,
+                    grace_period AS GracePeriod,
+                    price AS Price,
+                    created_at AS CreatedAt,
+                    last_update_at AS LastUpdateAt,
+                    is_archived AS IsArchived
+                FROM subscription_tiers;";
             return await connection.QueryAsync<SubscriptionTier>(sql);
         }
 

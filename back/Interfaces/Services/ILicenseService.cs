@@ -8,5 +8,6 @@ namespace EitechPfe.Interfaces
         Task<int> UpdateLicense(License license);
         Task<int> DeleteLicense(int id);
         Task<bool> CheckLicense(int userId, int productId, string? fingerprint = null);
+        Task<bool> CheckLicense(int userId, int licenseId);
     }
 }

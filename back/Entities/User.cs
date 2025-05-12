@@ -11,4 +11,4 @@ public class User
 }
 // check: 
 // licence: id, options, email
-// subscription: id tier, id subscription , email
+// subscription: id tier, id subscription , email   

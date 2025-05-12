@@ -1,3 +1,4 @@
+using EitechPfe.DTOs.Requests;
 
 namespace EitechPfe.Controllers
 {
@@ -51,6 +52,16 @@ namespace EitechPfe.Controllers
         {
             var result = await _licenseService.DeleteLicense(id);
             return result > 0 ? Ok("License deleted") : BadRequest("Failed to delete license");
+        }
+
+        [HttpPost("check")]
+        public async Task<IActionResult> CheckLicense([FromBody] LicenseCheckRequest request)
+        {
+            Console.WriteLine($"CheckLicense Request: {request.UserId}, {request.LicenseId}");
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid license check request.");
+            var isValid = await _licenseService.CheckLicense(request.UserId, request.LicenseId);
+            return Ok(new { IsValid = isValid });
         }
     }
 }
