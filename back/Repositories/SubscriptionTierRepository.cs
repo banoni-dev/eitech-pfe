@@ -54,7 +54,7 @@ namespace EitechPfe.Repositories
                 FROM subscription_tiers;";
             return await connection.QueryAsync<SubscriptionTier>(sql);
         }
-
+        // LOAD THE EXISTING RECORDS FROM THE DATABASE THEN MERGE
         public async Task<int> UpdateSubscriptionTier(SubscriptionTier subscriptionTier)
         {
             using var connection = _dbConfig.GetConnection();

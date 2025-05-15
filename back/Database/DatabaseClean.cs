@@ -21,6 +21,7 @@ public class DatabaseClean
             SET FOREIGN_KEY_CHECKS = 0;
 
             -- Check if the table exists before truncating
+            DROP TABLE IF EXISTS admins;
             DROP TABLE IF EXISTS users;
             DROP TABLE IF EXISTS black_listed;
             DROP TABLE IF EXISTS products;

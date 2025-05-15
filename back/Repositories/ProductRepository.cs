@@ -15,7 +15,17 @@ namespace EitechPfe.Repositories
             string sql = @"
                 INSERT INTO products (name, description, product_type, created_at, updated_at, is_archived)
                 VALUES (@Name, @Description, @ProductType, @CreatedAt, @UpdatedAt, @IsArchived);";
-            return await connection.ExecuteAsync(sql, product);
+            // Convert enum to string for DB
+            var dbProduct = new
+            {
+                product.Name,
+                product.Description,
+                ProductType = product.ProductType == Entities.ProductType.License ? "License" : "Subscription",
+                product.CreatedAt,
+                product.UpdatedAt,
+                product.IsArchived
+            };
+            return await connection.ExecuteAsync(sql, dbProduct);
         }
 
         public async Task<Product?> GetProductById(int id)
@@ -59,7 +69,17 @@ namespace EitechPfe.Repositories
                 SET name = @Name, description = @Description, product_type = @ProductType, 
                     updated_at = @UpdatedAt, is_archived = @IsArchived
                 WHERE id = @Id;";
-            return await connection.ExecuteAsync(sql, product);
+            // Map enum to string for DB
+            var dbProduct = new
+            {
+                product.Id,
+                product.Name,
+                product.Description,
+                ProductType = product.ProductType == Entities.ProductType.License ? "License" : "Subscription",
+                product.UpdatedAt,
+                product.IsArchived
+            };
+            return await connection.ExecuteAsync(sql, dbProduct);
         }
 
         public async Task<int> DeleteProduct(int id)

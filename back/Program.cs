@@ -6,6 +6,7 @@ using EitechPfe.Services;
 using EitechPfe.Repositories;
 using System.Text.Json.Serialization;
 using MySql.Data.MySqlClient;
+using System.Data; // Add this at the top
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,9 @@ builder.Services.AddControllers()
 // Database configuration
 builder.Services.AddSingleton<DatabaseConfig>();
 
+// Register IDbConnection for DI
+builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
+
 // Register repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -67,6 +71,9 @@ builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
 builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
 builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
 builder.Services.AddScoped<IBlackListedService, BlackListedService>();
+
+// Register AdminService
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();

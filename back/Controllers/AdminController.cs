@@ -55,5 +55,15 @@ namespace EitechPfe.Controllers
             var result = await _adminService.DeleteAdmin(id);
             return result > 0 ? Ok("Admin deleted successfully.") : BadRequest("Failed to delete admin.");
         }
+
+        [HttpPost("{id}/api-key")]
+        public async Task<IActionResult> GenerateApiKey(int id)
+        {
+            var result = await _adminService.GenerateApiKey(id);
+            if (string.IsNullOrEmpty(result))
+                return BadRequest("Failed to generate API key.");
+                
+            return Ok(new { ApiKey = result });
+        }
     }
 }

@@ -16,7 +16,9 @@ public class DatabaseSeed
         connection.Open();
 
         var commandText = @"
-            
+            -- Seed Admins
+            INSERT INTO admins (username, password, api_key, created_at, last_update_at) VALUES
+            ('admin', '$2a$11$abcdefghijklmnopqrstuv', 'seeded-api-key', NOW(), NOW());
 
             -- Seed Products
             INSERT INTO products (name, description, product_type, created_at, updated_at, is_archived) VALUES

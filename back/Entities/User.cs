@@ -10,5 +10,5 @@ public class User
     public bool IsArchived { get; set; } = false;
 }
 // check: 
-// licence: id, options, email
-// subscription: id tier, id subscription , email   
+// license: id, options, email
+// subscription: id tier, id subscription , email

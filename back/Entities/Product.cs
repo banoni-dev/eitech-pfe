@@ -2,7 +2,7 @@ namespace EitechPfe.Entities
 {
     public enum ProductType
     {
-        License, // Corrected spelling to match database expectations
+        License,
         Subscription
     }
 
