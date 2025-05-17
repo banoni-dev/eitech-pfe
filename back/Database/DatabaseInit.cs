@@ -30,16 +30,6 @@ public class DatabaseInit
                 is_archived BOOLEAN NOT NULL DEFAULT FALSE
             );
 
-            -- Admins Table
-            CREATE TABLE IF NOT EXISTS admins (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL UNIQUE,
-                password VARCHAR(255) NOT NULL,
-                api_key VARCHAR(255) NULL,
-                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            );
-
             -- Products Table
             CREATE TABLE IF NOT EXISTS products (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -145,6 +135,7 @@ public class DatabaseInit
 
             -- SubscriptionOrders Table
             CREATE TABLE IF NOT EXISTS subscription_orders (
+                id INT AUTO_INCREMENT PRIMARY KEY, -- Added id as primary key
                 subscription_tier_id INT NOT NULL,
                 user_id INT NOT NULL,
                 purchase_date DATETIME NOT NULL,
@@ -154,7 +145,6 @@ public class DatabaseInit
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 is_archived BOOLEAN NOT NULL DEFAULT FALSE,
-                PRIMARY KEY (subscription_tier_id, user_id),
                 FOREIGN KEY (subscription_tier_id) REFERENCES subscription_tiers(tier_id),
                 FOREIGN KEY (user_id) REFERENCES users(user_id)
             );
@@ -166,6 +156,16 @@ public class DatabaseInit
                 type ENUM('IP', 'User', 'Device') NOT NULL,
                 blocked_date DATETIME NOT NULL,
                 recovery_date DATETIME NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            );
+
+            -- Admins Table
+            CREATE TABLE IF NOT EXISTS admins (
+                admin_id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                api_key VARCHAR(255) NOT NULL UNIQUE,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             );

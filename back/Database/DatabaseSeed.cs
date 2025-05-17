@@ -57,8 +57,8 @@ public class DatabaseSeed
             (2, 'Standard Plan', 30, 5, 19.99, NOW(), NOW(), FALSE);
 
             -- Seed Subscription Orders
-            INSERT INTO subscription_orders (subscription_tier_id, user_id, purchase_date, start_date, end_date, status, created_at, last_update_at, is_archived) VALUES
-            (1, 2, NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), 'Active', NOW(), NOW(), FALSE);
+            INSERT INTO subscription_orders (id, subscription_tier_id, user_id, purchase_date, start_date, end_date, status, created_at, last_update_at, is_archived) VALUES
+            (1, 1, 2, NOW(), NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), 'Active', NOW(), NOW(), FALSE);
 
             -- Seed Blacklist
             INSERT INTO black_listed (ip, type, blocked_date, recovery_date, created_at, last_update_at) VALUES

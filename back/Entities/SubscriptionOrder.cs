@@ -7,6 +7,7 @@ public enum SubscriptionStatus
 
 public class SubscriptionOrder
 {
+    public int Id { get; set; } // Added Id property
     public int SubscriptionTierId { get; set; }
     public int UserId { get; set; }
     public DateTime PurchaseDate { get; set; }

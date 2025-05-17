@@ -1,5 +1,3 @@
-using EitechPfe.DTOs.Requests;
-
 namespace EitechPfe.Controllers
 {
     [ApiController]
@@ -40,7 +38,7 @@ namespace EitechPfe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] SubscriptionOrder subscriptionOrder)
         {
-            subscriptionOrder.SubscriptionTierId = id;
+            subscriptionOrder.Id = id; // Use Id for update
             subscriptionOrder.LastUpdateAt = DateTime.UtcNow;
 
             var result = await _subscriptionOrderService.UpdateSubscriptionOrder(subscriptionOrder);
@@ -52,16 +50,6 @@ namespace EitechPfe.Controllers
         {
             var result = await _subscriptionOrderService.DeleteSubscriptionOrder(id);
             return result > 0 ? Ok("Subscription order deleted") : BadRequest("Failed to delete subscription order");
-        }
-
-        [HttpPost("check")]
-        public async Task<IActionResult> CheckSubscription([FromBody] SubscriptionCheckRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid subscription check request.");
-
-            var isValid = await _subscriptionOrderService.CheckSubscription(request.UserId, request.ProductId);
-            return Ok(new { IsValid = isValid });
         }
     }
 }

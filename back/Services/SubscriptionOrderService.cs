@@ -28,6 +28,7 @@ namespace EitechPfe.Services
 
         public async Task<int> UpdateSubscriptionOrder(SubscriptionOrder subscriptionOrder)
         {
+            // Ensure the Id is used for updating the subscription order
             return await _subscriptionOrderRepository.UpdateSubscriptionOrder(subscriptionOrder);
         }
 
