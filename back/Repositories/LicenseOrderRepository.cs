@@ -22,7 +22,7 @@ namespace EitechPfe.Repositories
         public async Task<LicenseOrder> GetByIdAsync(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM license_orders WHERE license_order_id = @Id;";
+            string sql = "SELECT * FROM license_orders WHERE license_order_id = @Id AND is_archived = FALSE;";
             var result = await connection.QueryFirstOrDefaultAsync<LicenseOrder>(sql, new { Id = id });
             return result ?? new LicenseOrder(); // Return an empty object instead of null
         }
@@ -51,14 +51,14 @@ namespace EitechPfe.Repositories
         public async Task<IEnumerable<LicenseOrder>> GetAllAsync()
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM license_orders;";
+            string sql = "SELECT * FROM license_orders WHERE is_archived = FALSE;";
             return await connection.QueryAsync<LicenseOrder>(sql);
         }
 
         public async Task<IEnumerable<LicenseOrder>> GetByUserIdAsync(string userId)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM license_orders WHERE user_id = @UserId;";
+            string sql = "SELECT * FROM license_orders WHERE user_id = @UserId AND is_archived = FALSE;";
             return await connection.QueryAsync<LicenseOrder>(sql, new { UserId = userId });
         }
 
@@ -97,12 +97,7 @@ namespace EitechPfe.Repositories
         public async Task<bool> DeleteAsync(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            
-            // First delete related records in license_order_options
-            await connection.ExecuteAsync("DELETE FROM license_order_options WHERE license_order_id = @Id;", new { Id = id });
-            
-            // Then delete the order
-            string sql = "DELETE FROM license_orders WHERE license_order_id = @Id;";
+            string sql = "UPDATE license_orders SET is_archived = TRUE WHERE license_order_id = @Id;";
             var result = await connection.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }

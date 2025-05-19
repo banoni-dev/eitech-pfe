@@ -32,7 +32,7 @@ namespace EitechPfe.Repositories
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
                 FROM users
-                WHERE user_id = @Id;";
+                WHERE user_id = @Id AND is_archived = FALSE;";
             return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
         }
 
@@ -49,7 +49,8 @@ namespace EitechPfe.Repositories
                     created_at AS CreatedAt,
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
-                FROM users;";
+                FROM users
+                WHERE is_archived = FALSE;";
                 
             return await connection.QueryAsync<User>(sql);
         }
@@ -69,7 +70,7 @@ namespace EitechPfe.Repositories
         public async Task<int> DeleteUser(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "DELETE FROM users WHERE user_id = @Id;";
+            string sql = "UPDATE users SET is_archived = TRUE WHERE user_id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
     }

@@ -48,10 +48,7 @@ public class DatabaseSeed
             (1, 1, 9.99, NOW(), NOW()),
             (1, 2, 4.99, NOW(), NOW());
 
-            -- Seed License Activation
-            INSERT INTO license_activations (license_order_id, device_fingerprint, activation_date, created_at, last_update_at, is_archived) VALUES
-            (1, 'device-abc123', NOW(), NOW(), NOW(), FALSE);
-
+            
             -- Seed Subscription Tiers
             INSERT INTO subscription_tiers (product_id, tier_name, duration, grace_period, price, created_at, last_update_at, is_archived) VALUES
             (2, 'Standard Plan', 30, 5, 19.99, NOW(), NOW(), FALSE);

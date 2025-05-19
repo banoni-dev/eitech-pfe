@@ -37,14 +37,14 @@ namespace EitechPfe.Repositories
         public async Task<SubscriptionOrder?> GetSubscriptionOrderById(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM subscription_orders WHERE id = @Id;"; // Use Id for lookup
+            string sql = "SELECT * FROM subscription_orders WHERE id = @Id AND is_archived = FALSE;"; // Use Id for lookup
             return await connection.QueryFirstOrDefaultAsync<SubscriptionOrder>(sql, new { Id = id });
         }
 
         public async Task<IEnumerable<SubscriptionOrder>> GetAllSubscriptionOrders()
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "SELECT * FROM subscription_orders;";
+            string sql = "SELECT * FROM subscription_orders WHERE is_archived = FALSE;";
             return await connection.QueryAsync<SubscriptionOrder>(sql);
         }
 
@@ -62,7 +62,7 @@ namespace EitechPfe.Repositories
         public async Task<int> DeleteSubscriptionOrder(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "DELETE FROM subscription_orders WHERE id = @Id;"; // Use Id for deletion
+            string sql = "UPDATE subscription_orders SET is_archived = TRUE WHERE id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
     }

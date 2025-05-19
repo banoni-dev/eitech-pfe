@@ -34,7 +34,7 @@ namespace EitechPfe.Repositories
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
                 FROM licenses
-                WHERE license_id = @Id;";
+                WHERE license_id = @Id AND is_archived = FALSE;";
             return await connection.QueryFirstOrDefaultAsync<License>(sql, new { Id = id });
         }
 
@@ -53,7 +53,8 @@ namespace EitechPfe.Repositories
                     created_at AS CreatedAt,
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
-                FROM licenses;";
+                FROM licenses
+                WHERE is_archived = FALSE;";
             return await connection.QueryAsync<License>(sql);
         }
 
@@ -72,7 +73,7 @@ namespace EitechPfe.Repositories
         public async Task<int> Delete(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "DELETE FROM licenses WHERE license_id = @Id;";
+            string sql = "UPDATE licenses SET is_archived = TRUE WHERE license_id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
 

@@ -57,7 +57,7 @@ builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
 builder.Services.AddScoped<ILicenseOptionRepository, LicenseOptionRepository>();
 builder.Services.AddScoped<ILicenseOrderRepository, LicenseOrderRepository>();
 builder.Services.AddScoped<IBlackListedRepository, BlackListedRepository>();
-builder.Services.AddScoped<ILicenseActivationRepository, LicenseActivationRepository>();
+// builder.Services.AddScoped<ILicenseActivationRepository, LicenseActivationRepository>();
 builder.Services.AddScoped<ILicenseBundleRepository, LicenseBundleRepository>();
 
 // Register services
@@ -69,7 +69,7 @@ builder.Services.AddScoped<ILicenseService, LicenseService>();
 builder.Services.AddScoped<ILicenseOptionService, LicenseOptionService>();
 builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
 builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
-builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
+// builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
 builder.Services.AddScoped<IBlackListedService, BlackListedService>();
 
 // Register AdminService

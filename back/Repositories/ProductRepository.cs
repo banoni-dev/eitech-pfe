@@ -41,7 +41,7 @@ namespace EitechPfe.Repositories
                     updated_at AS UpdatedAt,
                     is_archived AS IsArchived
                 FROM products
-                WHERE id = @Id;";
+                WHERE id = @Id AND is_archived = FALSE;";
             return await connection.QueryFirstOrDefaultAsync<Product>(sql, new { Id = id });
         }
 
@@ -57,7 +57,8 @@ namespace EitechPfe.Repositories
                     created_at AS CreatedAt,
                     updated_at AS UpdatedAt,
                     is_archived AS IsArchived
-                FROM products;";
+                FROM products
+                WHERE is_archived = FALSE;";
             return await connection.QueryAsync<Product>(sql);
         }
 
@@ -85,7 +86,7 @@ namespace EitechPfe.Repositories
         public async Task<int> DeleteProduct(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "DELETE FROM products WHERE id = @Id;";
+            string sql = "UPDATE products SET is_archived = TRUE WHERE id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
     }

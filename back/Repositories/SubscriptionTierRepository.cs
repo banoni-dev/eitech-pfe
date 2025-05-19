@@ -33,7 +33,7 @@ namespace EitechPfe.Repositories
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
                 FROM subscription_tiers
-                WHERE tier_id = @Id;";
+                WHERE tier_id = @Id AND is_archived = FALSE;";
             return await connection.QueryFirstOrDefaultAsync<SubscriptionTier>(sql, new { Id = id });
         }
 
@@ -51,7 +51,8 @@ namespace EitechPfe.Repositories
                     created_at AS CreatedAt,
                     last_update_at AS LastUpdateAt,
                     is_archived AS IsArchived
-                FROM subscription_tiers;";
+                FROM subscription_tiers
+                WHERE is_archived = FALSE;";
             return await connection.QueryAsync<SubscriptionTier>(sql);
         }
         // LOAD THE EXISTING RECORDS FROM THE DATABASE THEN MERGE
@@ -69,7 +70,7 @@ namespace EitechPfe.Repositories
         public async Task<int> DeleteSubscriptionTier(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            string sql = "DELETE FROM subscription_tiers WHERE tier_id = @Id;";
+            string sql = "UPDATE subscription_tiers SET is_archived = TRUE WHERE tier_id = @Id;";
             return await connection.ExecuteAsync(sql, new { Id = id });
         }
     }

@@ -25,14 +25,14 @@ namespace EitechPfe.Repositories
         public async Task<Admin?> GetAdminById(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            var query = "SELECT id, username, password, api_key, created_at, last_update_at FROM admins WHERE id = @Id";
+            var query = "SELECT id, username, password, api_key, created_at, last_update_at FROM admins WHERE id = @Id AND is_archived = FALSE";
             return await connection.QueryFirstOrDefaultAsync<Admin>(query, new { Id = id });
         }
 
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             using var connection = _dbConfig.GetConnection();
-            var query = "SELECT id, username, password, api_key, created_at, last_update_at FROM admins";
+            var query = "SELECT id, username, password, api_key, created_at, last_update_at FROM admins WHERE is_archived = FALSE";
             return await connection.QueryAsync<Admin>(query);
         }
 
@@ -47,8 +47,8 @@ namespace EitechPfe.Repositories
         public async Task<int> DeleteAdmin(int id)
         {
             using var connection = _dbConfig.GetConnection();
-            var query = "DELETE FROM admins WHERE id = @Id";
-            return await connection.ExecuteAsync(query, new { Id = id });
+            string sql = "UPDATE admins SET is_archived = TRUE WHERE id = @Id;";
+            return await connection.ExecuteAsync(sql, new { Id = id });
         }
     }
 }

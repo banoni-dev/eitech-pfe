@@ -107,17 +107,7 @@ public class DatabaseInit
                 FOREIGN KEY (option_id) REFERENCES license_options(option_id)
             );
 
-            -- LicenseActivations Table
-            CREATE TABLE IF NOT EXISTS license_activations (
-                activation_id INT AUTO_INCREMENT PRIMARY KEY,
-                license_order_id INT NOT NULL,
-                device_fingerprint TEXT NOT NULL,
-                activation_date DATETIME NOT NULL,
-                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                last_update_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                is_archived BOOLEAN NOT NULL DEFAULT FALSE,
-                FOREIGN KEY (license_order_id) REFERENCES license_orders(license_order_id)
-            );
+            
 
             -- SubscriptionTiers Table
             CREATE TABLE IF NOT EXISTS subscription_tiers (
@@ -162,7 +152,7 @@ public class DatabaseInit
 
             -- Admins Table
             CREATE TABLE IF NOT EXISTS admins (
-                admin_id INT AUTO_INCREMENT PRIMARY KEY,
+                id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
                 api_key VARCHAR(255) NOT NULL UNIQUE,
