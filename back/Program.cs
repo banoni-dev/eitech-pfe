@@ -1,12 +1,19 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EitechPfe.Interfaces;
-using EitechPfe.Services;
-using EitechPfe.Repositories;
 using System.Text.Json.Serialization;
 using MySql.Data.MySqlClient;
-using System.Data; // Add this at the top
+using System.Data;
+
+// Import all module interfaces
+using EitechPfe.Modules.Product.Interfaces;
+using EitechPfe.Modules.User.Interfaces;
+using EitechPfe.Modules.Product;
+using EitechPfe.Modules.User;
+
+// Import email service
+using EitechPfe.Services;
+using EitechPfe.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +35,18 @@ if (args.Length > 0)
         case "clean":
             new DatabaseClean(connectionString).Run();
             return;
+        case "send-email":
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Please provide an email address. Usage: send-email <email>");
+                return;
+            }
+            var emailService = new EmailService(builder.Configuration);
+            emailService.SendSubscriptionReminderEmail(args[1]).Wait();
+            Console.WriteLine($"Email sent to {args[1]}.");
+            return;
         default:
-            Console.WriteLine("Invalid command! Use 'init', 'seed', or 'clean'.");
+            Console.WriteLine("Invalid command! Use 'init', 'seed', 'clean', or 'send-email'.");
             return;
     }
 }
@@ -48,32 +65,16 @@ builder.Services.AddSingleton<DatabaseConfig>();
 // Register IDbConnection for DI
 builder.Services.AddScoped<IDbConnection>(sp => new MySqlConnection(connectionString));
 
-// Register repositories
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ISubscriptionOrderRepository, SubscriptionOrderRepository>();
-builder.Services.AddScoped<ISubscriptionTierRepository, SubscriptionTierRepository>();
-builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
-builder.Services.AddScoped<ILicenseOptionRepository, LicenseOptionRepository>();
-builder.Services.AddScoped<ILicenseOrderRepository, LicenseOrderRepository>();
-builder.Services.AddScoped<IBlackListedRepository, BlackListedRepository>();
-builder.Services.AddScoped<ILicenseActivationRepository, LicenseActivationRepository>();
-builder.Services.AddScoped<ILicenseBundleRepository, LicenseBundleRepository>();
+// Register Product module
+builder.Services.AddScoped<EitechPfe.Modules.Product.Interfaces.IProductRepository, EitechPfe.Modules.Product.ProductRepository>();
+builder.Services.AddScoped<EitechPfe.Modules.Product.Interfaces.IProductService, EitechPfe.Modules.Product.ProductService>();
 
-// Register services
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ISubscriptionOrderService, SubscriptionOrderService>();
-builder.Services.AddScoped<ISubscriptionTierService, SubscriptionTierService>();
-builder.Services.AddScoped<ILicenseService, LicenseService>();
-builder.Services.AddScoped<ILicenseOptionService, LicenseOptionService>();
-builder.Services.AddScoped<ILicenseOrderService, LicenseOrderService>();
-builder.Services.AddScoped<ILicenseBundleService, LicenseBundleService>();
-builder.Services.AddScoped<ILicenseActivationService, LicenseActivationService>();
-builder.Services.AddScoped<IBlackListedService, BlackListedService>();
+// Register User module
+builder.Services.AddScoped<EitechPfe.Modules.User.Interfaces.IUserRepository, EitechPfe.Modules.User.UserRepository>();
+builder.Services.AddScoped<EitechPfe.Modules.User.Interfaces.IUserService, EitechPfe.Modules.User.UserService>();
 
-// Register AdminService
-builder.Services.AddScoped<IAdminService, AdminService>();
+// Register EmailService
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -104,11 +105,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseRouting();
-// app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.Run();

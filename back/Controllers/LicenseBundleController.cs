@@ -51,6 +51,6 @@ namespace EitechPfe.Controllers
         {
             var result = await _licenseBundleService.DeleteLicenseBundle(id);
             return result > 0 ? Ok("License bundle deleted") : BadRequest("Failed to delete license bundle");
-        }
+        } 
     }
 }
